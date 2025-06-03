@@ -10,7 +10,7 @@ interface PairInfoWithData {
     [key: string]: any;
 }
 
-export class PairsCache {
+export default class PairsCache {
     private client: IntegratedClient;
     private _pairInfoCache: Record<number, PairInfoWithData> = {};
     private _groupIndexesCache: Set<number> = new Set();
