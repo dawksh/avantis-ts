@@ -1,9 +1,8 @@
 import axios from "axios";
 import type { IntegratedClient } from "../clients";
 import { AVANTIS_SOCKET_API, MAINNET_ADDRESSES } from "../utils/constants";
-import { decodeFunctionData, encodeFunctionData } from "viem";
 
-interface PairInfoWithData {
+export interface PairInfoWithData {
     from_: string;
     to: string;
     group_index: number;
@@ -27,11 +26,11 @@ export default class PairsCache {
     async getPairsInfo(forceUpdate = false): Promise<Record<number, PairInfoWithData>> {
         if (forceUpdate || Object.keys(this._pairInfoCache).length === 0) {
             const { data } = await axios.get(AVANTIS_SOCKET_API)
-            const pairs = data.data.pairs
-            for (const pair of pairs) {
-                this._pairInfoCache[pair.index] = pair
-                this._groupIndexesCache.add(pair.group_index)
-                this._pairMapping[`${pair.from_}/${pair.to}`] = pair.index
+            const pairs = data.data.pairInfos
+            for (const pair of Object.keys(pairs)) {
+                this._pairInfoCache[Number(pair)] = pairs[pair] as PairInfoWithData
+                this._groupIndexesCache.add(pairs[pair].group_index)
+                this._pairMapping[`${pairs[pair].from_}/${pairs[pair].to}`] = Number(pair)
             }
             return this._pairInfoCache
         }
