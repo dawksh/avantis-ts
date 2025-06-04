@@ -87,7 +87,16 @@ class Trading {
         return calls
     }
 
-    async closeMarketOrder(pairIndex: number, index: number, user?: `0x${string}`) { }
+    async closeMarketOrder(pairIndex: number, index: number, collateral: number) {
+        const trading = MAINNET_ADDRESSES["Trading"]
+        const tradingContract = this.client.getContract("Trading", trading as `0x${string}`)
+        const calldata = encodeFunctionData({
+            abi: tradingContract.abi,
+            functionName: "closeTradeMarket",
+            args: [BigInt(collateral), BigInt(index), BigInt(pairIndex)]
+        })
+        return calldata
+    }
 
     async getCurrentOrders(user?: `0x${string}`) { }
 
