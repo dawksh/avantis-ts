@@ -1,4 +1,4 @@
-import type { WalletClient, PublicClient } from 'viem';
+import { type WalletClient, type PublicClient, createPublicClient, http } from 'viem';
 import type { Abi } from 'abitype';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -9,9 +9,17 @@ class IntegratedClient {
     private publicClient: PublicClient;
     private abiBasePath: string;
 
-    constructor(walletClient: WalletClient, publicClient: PublicClient, abiBasePath: string = './src/abis') {
-        this.walletClient = walletClient;
-        this.publicClient = publicClient;
+    constructor(walletClient?: WalletClient, publicClient?: PublicClient, abiBasePath: string = './src/abis') {
+        this.walletClient = walletClient!;
+        this.publicClient = publicClient || createPublicClient({
+            chain: base,
+            transport: http(),
+            batch: {
+                multicall: {
+                    batchSize: 100,
+                }
+            }
+        }) as unknown as PublicClient;
         this.abiBasePath = abiBasePath;
     }
 
