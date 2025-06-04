@@ -36,7 +36,8 @@ class Trading {
     }
 
     async createMarketOrder(
-        pair: number,
+        pairIndex: number,
+        index: number,
         buy: boolean,
         leverage: number,
         margin: number,
@@ -62,8 +63,8 @@ class Trading {
             args: [
                 [
                     user || this.client.getClients().walletClient.account?.address!,
-                    BigInt(pair),
-                    0,
+                    BigInt(pairIndex),
+                    BigInt(index),
                     0n,
                     BigInt(margin),
                     BigInt(openPrice),
@@ -85,6 +86,12 @@ class Trading {
 
         return calls
     }
+
+    async closeMarketOrder(pairIndex: number, index: number, user?: `0x${string}`) { }
+
+    async getCurrentOrders(user?: `0x${string}`) { }
+
+    async getHistory(user?: `0x${string}`) { }
 }
 
 export default Trading;
