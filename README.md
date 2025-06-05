@@ -7,5 +7,6 @@ todo for basic functionality:
 - [x] get pairs
 - [x] get usdc allowances
 - [x] make basic leverage orders
-- [ ] close orders
+- [x] close orders
 - [ ] get order history
+- [ ] 
