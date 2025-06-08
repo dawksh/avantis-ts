@@ -1,16 +1,28 @@
 {
-  "name": "avantis-ts",
-  "module": "src/index.ts",
-  "type": "module",
-  "devDependencies": {
-    "@types/bun": "latest"
+  "name": "@dawksh/avantis",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for trading on Avantis",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "bun build src/index.ts --outdir dist --target node --format esm --minify && bun build src/index.ts --outdir dist --target node --format cjs --minify",
+    "prepublishOnly": "npm run build"
   },
-  "peerDependencies": {
+  "devDependencies": {
+    "@types/bun": "latest",
+    "tsup": "^8.5.0",
     "typescript": "^5"
   },
   "dependencies": {
     "abitype": "^1.0.8",
     "axios": "^1.9.0",
     "viem": "^2.30.6"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
